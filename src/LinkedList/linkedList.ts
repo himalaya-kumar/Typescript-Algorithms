@@ -73,7 +73,7 @@ export class LinkedList {
         return currentNode?.element;
     }
 
-    addAt = (index : number,element:string) {
+    addAt = (index : number,element:string) => {
         let node = new LinkedList(element);
         let currentNode = this.head;
         let previousNode;
