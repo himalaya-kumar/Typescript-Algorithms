@@ -1,3 +1,8 @@
+/**
+ * Node Class will have value contain the Binary Search tree nodes values
+ * i.e. node value itself and its left and right
+ *  
+ */
 class Node {
     public data: number;
     public left: Node | null;
@@ -10,18 +15,26 @@ class Node {
 }
 
 /**
- * Type of data for BST is Number.
+ * data Type for this BST is Number.
  */
-export default class BinarySearchTree {
+export class BinarySearchTree {
 
+    /**Root can assume as a start of BST*/
     private root: Node;
 
     constructor() {
         this.root = new Node();
     }
 
+    /**
+     * This will add value to the BST after cheking the position where it be placed in.
+     *  
+     * @param data 
+     */
     add = (data: number): void => {
+
         const rootElement = this.root;
+        
         if (rootElement === null) {
             this.root = new Node(data);
             return;
@@ -30,6 +43,9 @@ export default class BinarySearchTree {
         }
     }
 
+    /**
+     * minimum value on BST
+     */
     findMin = () => {
         let current = this.root;
         while (current.left !== null) {
@@ -38,6 +54,9 @@ export default class BinarySearchTree {
         return current.data;
     }
 
+    /**
+     * Finding max value
+     */
     findMax = () => {
         let current = this.root;
         while (current.right !== null) {
@@ -46,6 +65,10 @@ export default class BinarySearchTree {
         return current.right;
     }
 
+    /**
+     * Finding the given data
+     * @param data 
+     */
     find = (data: number) => {
         let current: Node | null = this.root;
         while (current!.data != data) {
@@ -57,6 +80,10 @@ export default class BinarySearchTree {
         }
     }
 
+    /**
+     * To check if the data is present
+     * @param data 
+     */
     isPresent = (data: number) => {
         let current: Node | null = this.root;
         while (current) {
@@ -72,6 +99,10 @@ export default class BinarySearchTree {
         return false;
     }
 
+    /**
+     * To remove the data from BST
+     * @param data 
+     */
     remove = (data:number) => {
         const removeNode = function(node:any,data:any) {
             if(node == null) {
@@ -99,6 +130,9 @@ export default class BinarySearchTree {
         this.root = removeNode(this.root,data);
     }
 
+    /**
+     * In BST Balanced is property where we check the balanced height.
+     */
     isBalanced = () : boolean => this.findMinHeight() >= this.findMaxHeight() -1;
 
     findMinHeight = (node:Node | null = this.root):number => {
@@ -109,6 +143,10 @@ export default class BinarySearchTree {
         else return right + 1;
     }
 
+    /**
+     * find the Max Height
+     * @param node 
+     */
     findMaxHeight = (node :Node | null = this.root):number => {
         if(node == null) return -1;
         let left = this.findMaxHeight(node.left);
@@ -117,11 +155,18 @@ export default class BinarySearchTree {
         else return right +1;
     }
 
+    /**
+     * In order is way of BST
+     */
     inOrder = ():Array<Node> | null => {
         if(this.root == null) return null;
         else return this.traverseInOrder(this.root);
     }
 
+    /**
+     * traverse order of BST
+     * @param node 
+     */
     traverseInOrder = (node:Node): Array<Node>  => {
         let result = new Array();
         node.left && this.traverseInOrder(node.left);
@@ -130,11 +175,18 @@ export default class BinarySearchTree {
         return result;
     }
 
+    /**
+     * Preorder
+     */
     preOrder = ():Array<Node>| null  => {
         if(this.root == null) return null;
         else return this.traversePreOrder(this.root);
     }
 
+    /**
+     * Traverse pre order
+     * @param node 
+     */
     traversePreOrder = (node:Node) :Array<Node> => {
         let result = new Array();
         result.push(node.data);
@@ -143,12 +195,18 @@ export default class BinarySearchTree {
         return result;
     }
 
-
+    /**
+     * Post Preoder
+     */
     postOrder = ():Array<Node>| null => {
         if(this.root == null) return null;
         else return this.traversePostOrder(this.root);
     }
 
+    /**
+     * traverse post order
+     * @param node 
+     */
     traversePostOrder = (node:Node):Array<Node> => {
         var result = new Array();
         node.left && this.traversePostOrder(node.left);
@@ -157,6 +215,9 @@ export default class BinarySearchTree {
         return result;
     }
 
+    /**
+     * Level order the value
+     */
     levelOrder = ()=>{
         let result = [];
         let Q = [];
@@ -172,6 +233,11 @@ export default class BinarySearchTree {
         } else return null;
     }
 
+    /**
+     * Common recursion method
+     * @param rootElement 
+     * @param data 
+     */
     private searchTree = (rootElement: Node, data?: number): any => {
         if (rootElement.data !== null && data !== undefined) {
             if (data < rootElement.data) {
