@@ -1,0 +1,24 @@
+{
+  "name": "typescript-algorithms",
+  "version": "1.0.0",
+  "description": "Algortihm-for-typescript",
+  "main": "index.js",
+  "repository": "https://github.com/himalaya-kumar/Typescript-Algorithms.git",
+  "author": "Himalaya Kumar <itshimalaykumarx@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build-ts": "tsc",
+    "build-dev": "tsc --watch",
+    "start": "nodemon dist/index.js",
+    "dev": "concurrently \"yarn:build-dev\" \"yarn:start\"",
+    "test-dev": "jest --watchAll --no-cache",
+    "test": "jest --verbose",
+    "bNt":"tsc && jest --verbose"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "jest": "^27.4.3",
+    "ts-jest": "^27.1.1",
+    "typescript": "^4.5.2"
+  }
+}
