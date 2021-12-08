@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/himalaya-kumar/Typescript-Algorithms.git",
   "author": "Himalaya Kumar <itshimalaykumarx@gmail.com>",
-  "license": "MIT",
+  "license": "Apache 2.0",
   "scripts": {
     "build-ts": "tsc",
     "build-dev": "tsc --watch",
