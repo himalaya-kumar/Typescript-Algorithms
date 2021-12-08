@@ -1,4 +1,6 @@
-
+/**
+ * Linked List in
+ */
 export class LinkedList {
     private element: string;
     private next: LinkedList | null | undefined;
@@ -57,7 +59,7 @@ export class LinkedList {
 
         while(currentNode) {
             index++;
-            if(currentNode.element === element) return index;
+            if(currentNode.element === element) {return index;}
             currentNode = currentNode.next;
         }
         return -1;
