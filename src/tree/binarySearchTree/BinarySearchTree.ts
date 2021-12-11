@@ -57,15 +57,22 @@ export class BinarySearchTree<T> implements BinarySearchTree<T> {
     }
 
 
-    public remove(value: T): Boolean {
-        if (!this.root) {
-            return false;
-        }
-
+    /**
+     * Remove node from binary search tree
+     * Condition when a node removed
+     * - having zero child = set the node to be null
+     * - having one child 
+     *      -left or right gets attached to parent 
+     * - having two child
+     *      - either highest from left gets attached 
+     *      - or lowest from rigth gets attached
+     * @param value 
+     */
+    public remove(value: T): boolean {
+        const nodeToRemove = this.lookup(value);
         let currentNode = this.root;
         let parentNode = null as any;
         while (currentNode) {
-            //Traversing through value
             if (value < currentNode.value) {
                 parentNode = currentNode;
                 currentNode = currentNode.left;
@@ -73,71 +80,27 @@ export class BinarySearchTree<T> implements BinarySearchTree<T> {
                 parentNode = currentNode;
                 currentNode = currentNode.right;
             } else if (currentNode.value === value) {
-
-                //when right node is null
-                if (currentNode.right === null) {
-                    this.rightNodeIsNull(parentNode, currentNode);
-                } else if (currentNode.right.left === null) {
-                    this.whenValueToLeftIsNull(currentNode, parentNode);
+                //Zero child 
+                if (nodeToRemove.left === null && nodeToRemove.right === null) {
+                    if(parentNode.right === value) {
+                        parentNode.right === null; 
+                    } else {
+                        parentNode.left === null;
+                    }
+                //One child left
+                } else if(nodeToRemove.left && nodeToRemove.right === null) {
+                    parentNode.left = nodeToRemove.left;
+                } else if (nodeToRemove.right && nodeToRemove.left === null) {
+                    parentNode.right = nodeToRemove.right;
                 } else {
-                    this.otherwiseWhileRemoving(currentNode, parentNode);
+                    //both
+                    //Picking most higher from left side
                 }
-                return true;
+                
             }
         }
+
         return false;
     }
 
-    private otherwiseWhileRemoving(currentNode: TreeNode<T>, parentNode: any) {
-        let leftmost = currentNode.right.left;
-        let leftmostParent = currentNode.right;
-        while (leftmost.left !== null) {
-            leftmostParent = leftmost;
-            leftmost = leftmost.left;
-        }
-
-        // Parent's left subtree is now leftmost's right subtree
-        leftmostParent.left = leftmost.right;
-        leftmost.left = currentNode.left;
-        leftmost.right = currentNode.right;
-
-        if (parentNode === null) {
-            this.root = leftmost;
-        } else {
-            if (currentNode.value < parentNode.value) {
-                parentNode.left = leftmost;
-            } else if (currentNode.value > parentNode.value) {
-                parentNode.right = leftmost;
-            }
-        }
-    }
-
-    private whenValueToLeftIsNull(currentNode: TreeNode<T>, parentNode: any) {
-        currentNode.right.left = currentNode.left;
-        if (parentNode === null) {
-            this.root = currentNode.right;
-        } else {
-            // if parent > current, make right child of the left the parent
-            if (currentNode.value < parentNode.value) {
-                parentNode.left = currentNode.right;
-
-                // if parent < current, make right child a right child of the parent
-            } else if (currentNode.value > parentNode.value) {
-                parentNode.right = currentNode.right;
-            }
-        }
-    }
-
-    private rightNodeIsNull(parentNode: any, currentNode: TreeNode<T>) {
-        if (parentNode === null) {
-            this.root = currentNode.left;
-        } else {
-            //the node meant to be removed have a left value than attach the left value parent
-            if (currentNode.value < parentNode.value) {
-                parentNode.left = currentNode.left;
-            } else if (currentNode.value > parentNode.value) {
-                parentNode.right = currentNode.right;
-            }
-        }
-    }
 }

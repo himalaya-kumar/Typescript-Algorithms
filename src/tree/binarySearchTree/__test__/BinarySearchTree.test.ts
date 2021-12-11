@@ -53,7 +53,12 @@ describe('10.Binary Search Tree', () => {
     bst.insert(170);
     bst.insert(15);
     bst.insert(1);
-
+    /**
+     *   9
+     * 4     20
+     *1  6  15    170
+     *
+     */
     expect(bst.remove(9)).toBeTruthy();
     expect(bst.remove(4)).toBeTruthy();
     expect(bst.remove(170)).toBeTruthy();
