@@ -13,7 +13,7 @@ export class BinarySearchTree<T> implements BinarySearchTree<T> {
     }
 
     public insert(value: T): TreeNode<T> {
-        const newNode = new TreeNode<T>();
+        const newNode = new TreeNode<T>(value);
         if (!this.root) {
             this.root = newNode;
         } else {
@@ -67,8 +67,12 @@ export class BinarySearchTree<T> implements BinarySearchTree<T> {
      *      - either highest from left gets attached 
      *      - or lowest from rigth gets attached
      * @param value 
+     * @returns Boolean
      */
     public remove(value: T): boolean {
+        if(this.lookup(value) === null){
+            return false;
+        }
         const nodeToRemove = this.lookup(value);
         let currentNode = this.root;
         let parentNode = null as any;
@@ -82,24 +86,48 @@ export class BinarySearchTree<T> implements BinarySearchTree<T> {
             } else if (currentNode.value === value) {
                 //Zero child 
                 if (nodeToRemove.left === null && nodeToRemove.right === null) {
-                    if(parentNode.right === value) {
-                        parentNode.right === null; 
+                    if (parentNode.right.value === value) {
+                        parentNode.right === null;
                     } else {
                         parentNode.left === null;
                     }
-                //One child left
-                } else if(nodeToRemove.left && nodeToRemove.right === null) {
+                    //One child left
+                } else if (nodeToRemove.left && nodeToRemove.right === null) {
                     parentNode.left = nodeToRemove.left;
                 } else if (nodeToRemove.right && nodeToRemove.left === null) {
                     parentNode.right = nodeToRemove.right;
                 } else {
                     //both
                     //Picking most higher from left side
-                }
-                
-            }
-        }
+                    let mostHighestFromLeft:TreeNode<T> = new TreeNode();
+                    if(nodeToRemove.left.right !== null){
+                        mostHighestFromLeft.value = nodeToRemove.left.right.value;
+                    }
 
+                    while (mostHighestFromLeft) {
+                        if (mostHighestFromLeft.right !== null) {
+                            mostHighestFromLeft = mostHighestFromLeft.right;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    if (parentNode === null) {
+                        //parentNode is null i.e. node is root
+                        this.root.value = mostHighestFromLeft.value;
+                    } else if(parentNode.right === nodeToRemove){
+                        parentNode.right = mostHighestFromLeft;
+                    } else {
+                        parentNode.left = mostHighestFromLeft;
+                    }
+                      mostHighestFromLeft.right = nodeToRemove.right;
+                      mostHighestFromLeft.left = nodeToRemove.left;
+
+                      return true;
+                }
+            }
+
+        }
         return false;
     }
 
