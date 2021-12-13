@@ -1,15 +1,16 @@
-import { BinarySearchTree } from '../BinarySearchTree';
+import { TreeNode } from '../../TreeNode';
+import { BSTNum } from '../BSTNum';
 
-describe('10.Binary Search Tree', () => {
+describe('13.Number Binary Search Tree', () => {
   test('TEST_1:Create binary search tree', () => {
-    const bst = new BinarySearchTree();
+    const bst = new BSTNum();
 
     expect(bst).toBeDefined();
-    expect(bst.root).toBeNull();
+    expect(bst.root).toEqual(new TreeNode(0));
   });
 
   test('TEST_2:Insert values in tree', () => {
-    const bst = new BinarySearchTree<number>();
+    const bst = new BSTNum();
 
     const node1 = bst.insert(9);
     const node2 = bst.insert(4);
@@ -29,7 +30,7 @@ describe('10.Binary Search Tree', () => {
   });
 
   test('TEST_3:look for a node in tree', () => {
-    const bst = new BinarySearchTree<number>();
+    const bst = new BSTNum();
 
     bst.insert(9);
     bst.insert(4);
@@ -40,11 +41,11 @@ describe('10.Binary Search Tree', () => {
     bst.insert(1);
 
     expect(bst.lookup(6).value).toBe(6);
-    expect(bst.lookup(45)).toBeFalsy();
+    expect(bst.lookup(45).value).toBe(0);
   });
 
   test('TEST_4:remove nodes from tree', () => {
-    const bst = new BinarySearchTree<number>();
+    const bst = new BSTNum();
 
     bst.insert(9);
     bst.insert(4);

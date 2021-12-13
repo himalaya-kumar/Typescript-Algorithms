@@ -1,3 +1,8 @@
+import { BinarySearchTree } from "./tree/binarySearchTree/BinarySearchTree";
+
 /**
- * https://github.com/francislagares/typescript-algorithms/tree/master/src/stack
+ *
+ * TODO:
+ * - Do binary serach tree in number format
+ * 
  */

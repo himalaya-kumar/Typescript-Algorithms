@@ -56,79 +56,79 @@ export class BinarySearchTree<T> implements BinarySearchTree<T> {
         return null as any;
     }
 
-
-    /**
-     * Remove node from binary search tree
-     * Condition when a node removed
-     * - having zero child = set the node to be null
-     * - having one child 
-     *      -left or right gets attached to parent 
-     * - having two child
-     *      - either highest from left gets attached 
-     *      - or lowest from rigth gets attached
-     * @param value 
-     * @returns Boolean
-     */
     public remove(value: T): boolean {
-        if(this.lookup(value) === null){
-            return false;
+        if (!this.root) {
+          return false;
         }
-        const nodeToRemove = this.lookup(value);
         let currentNode = this.root;
-        let parentNode = null as any;
+        let parentNode = null;
         while (currentNode) {
-            if (value < currentNode.value) {
-                parentNode = currentNode;
-                currentNode = currentNode.left;
-            } else if (value > currentNode.value) {
-                parentNode = currentNode;
-                currentNode = currentNode.right;
-            } else if (currentNode.value === value) {
-                //Zero child 
-                if (nodeToRemove.left === null && nodeToRemove.right === null) {
-                    if (parentNode.right.value === value) {
-                        parentNode.right === null;
-                    } else {
-                        parentNode.left === null;
-                    }
-                    //One child left
-                } else if (nodeToRemove.left && nodeToRemove.right === null) {
-                    parentNode.left = nodeToRemove.left;
-                } else if (nodeToRemove.right && nodeToRemove.left === null) {
-                    parentNode.right = nodeToRemove.right;
-                } else {
-                    //both
-                    //Picking most higher from left side
-                    let mostHighestFromLeft:TreeNode<T> = new TreeNode();
-                    if(nodeToRemove.left.right !== null){
-                        mostHighestFromLeft.value = nodeToRemove.left.right.value;
-                    }
-
-                    while (mostHighestFromLeft) {
-                        if (mostHighestFromLeft.right !== null) {
-                            mostHighestFromLeft = mostHighestFromLeft.right;
-                        } else {
-                            break;
-                        }
-                    }
-
-                    if (parentNode === null) {
-                        //parentNode is null i.e. node is root
-                        this.root.value = mostHighestFromLeft.value;
-                    } else if(parentNode.right === nodeToRemove){
-                        parentNode.right = mostHighestFromLeft;
-                    } else {
-                        parentNode.left = mostHighestFromLeft;
-                    }
-                      mostHighestFromLeft.right = nodeToRemove.right;
-                      mostHighestFromLeft.left = nodeToRemove.left;
-
-                      return true;
+          if (value < currentNode.value) {
+            parentNode = currentNode;
+            currentNode = currentNode.left;
+          } else if (value > currentNode.value) {
+            parentNode = currentNode;
+            currentNode = currentNode.right;
+          } else if (currentNode.value === value) {    
+            // Option 1: No right child:
+            if (currentNode.right === null) {
+              if (parentNode === null) {
+                this.root = currentNode.left;
+              } else {
+                // if parent > current value, make current left child a child of parent
+                if (currentNode.value < parentNode.value) {
+                  parentNode.left = currentNode.left;
+    
+                  // if parent < current value, make left child a right child of parent
+                } else if (currentNode.value > parentNode.value) {
+                  parentNode.right = currentNode.left;
                 }
+              }
+    
+              // Option 2: Right child which doesnt have a left child
+            } else if (currentNode.right.left === null) {
+              currentNode.right.left = currentNode.left;
+              if (parentNode === null) {
+                this.root = currentNode.right;
+              } else {
+                // if parent > current, make right child of the left the parent
+                if (currentNode.value < parentNode.value) {
+                  parentNode.left = currentNode.right;
+    
+                  // if parent < current, make right child a right child of the parent
+                } else if (currentNode.value > parentNode.value) {
+                  parentNode.right = currentNode.right;
+                }
+              }
+    
+              // Option 3: Right child that has a left child
+            } else {
+              //find the Right child's left most child
+              let leftmost = currentNode.right.left;
+              let leftmostParent = currentNode.right;
+              while (leftmost.left !== null) {
+                leftmostParent = leftmost;
+                leftmost = leftmost.left;
+              }
+    
+              // Parent's left subtree is now leftmost's right subtree
+              leftmostParent.left = leftmost.right;
+              leftmost.left = currentNode.left;
+              leftmost.right = currentNode.right;
+    
+              if (parentNode === null) {
+                this.root = leftmost;
+              } else {
+                if (currentNode.value < parentNode.value) {
+                  parentNode.left = leftmost;
+                } else if (currentNode.value > parentNode.value) {
+                  parentNode.right = leftmost;
+                }
+              }
             }
-
+            return true;
+          }
         }
         return false;
-    }
-
+      }
 }
