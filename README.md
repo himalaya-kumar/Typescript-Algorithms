@@ -4,6 +4,6 @@ This repository is for algorithms to Learn typescript with not using null(T|null
 **TDD Aproach is being used in the project and use yarn bNT(build-tsc and Test jest-verbose)** 
 
 ## Scripts and Commands for this repository
- * ``` yarn tsc ``` :To **compile the code** from Typescript to Error prone Javascript code (*you will find the code in dist folder*)
- * ``` yarn execute ``` :To **run src/app.js** code
+ * ``` yarn build-ts ``` :To **compile the code** from Typescript to Error prone Javascript code (*you will find the code in dist folder*)
+ * ``` yarn test ``` :To **run src/app.js** code
  * ``` yarn bNt ``` To **compile and run the code** from Typescript to Error prone Javascript code (*you will find the code in dist folder*).
